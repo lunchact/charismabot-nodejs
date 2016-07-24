@@ -9,6 +9,27 @@ const app = require('../app');
 const script = require('../script');
 const SmoochCore = require('smooch-core');
 const jwt = require('../jwt');
+const fs = require('fs');
+
+class BetterSmoochApiBot extends SmoochApiBot {
+    constructor(options) {
+        super(options);
+    }
+
+    sendImage(imageFileName) {
+        const api = this.store.getApi();
+        let message = Object.assign({
+            role: 'appMaker'
+        }, {
+            name: this.name,
+            avatarUrl: this.avatarUrl
+        });
+        var real = fs.realpathSync(imageFileName);
+        let source = fs.readFileSync(real);
+
+        return api.conversations.uploadImage(this.userId, source, message);
+    }
+}
 
 const name = 'SmoochBot';
 const avatarUrl = 'https://s.gravatar.com/avatar/f91b04087e0125153623a3778e819c0a?s=80';
@@ -115,7 +136,7 @@ function handlePostback(req, res) {
     createBot(req.body.appUser).say(`You said: ${postback.action.text} (payload was: ${postback.action.payload})`)
         .then(() => res.end());
 }
-
+/*
 app.post('/webhook', function(req, res, next) {
     const trigger = req.body.trigger;
 
@@ -131,6 +152,51 @@ app.post('/webhook', function(req, res, next) {
         default:
             console.log('Ignoring unknown webhook trigger:', trigger);
     }
+});
+*/
+
+app.post('/webhook', function(req, res, next) {
+    var isPostback = req.body.trigger == "postback";
+    var msg = '';
+
+    const appUser = req.body.appUser;
+    const userId = appUser.userId || appUser._id;
+    const stateMachine = new StateMachine({
+        script,
+        bot: new BetterSmoochApiBot({
+            name,
+            avatarUrl,
+            lock,
+            store,
+            userId
+        })
+    });    
+
+    if(!isPostback) {
+        const messages = req.body.messages.reduce((prev, current) => {
+            if (current.role === 'appUser') {
+                prev.push(current);
+            }
+            return prev;
+        }, []);
+
+        if (messages.length === 0 && !isTrigger) {
+            return res.end();
+        }
+
+        msg = messages[0];
+    } else {
+        msg = req.body.postbacks[0];
+        msg.text = msg.action.payload;
+    }
+
+    stateMachine.receiveMessage(msg)
+        .then(() => res.end())
+        .catch((err) => {
+            console.error('SmoochBot error:', err);
+            console.error(err.stack);
+            res.end();
+        });
 });
 
 var server = app.listen(process.env.PORT || 8000, function() {
