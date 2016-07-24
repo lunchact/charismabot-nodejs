@@ -15,20 +15,6 @@ module.exports = new Script({
         }
     },
 
-    hi: {
-        receive: (bot) => {
-            return bot.say('Hello! What would you like to do today?')
-                .then(() => 'askToDo');
-        }
-    },
-
-    hello: {
-        receive: (bot) => {
-            return bot.say('Hello! What would you like to do today?')
-                .then(() => 'askToDo');
-        }
-    },
-
     askToDo: {
         prompt: (bot) => bot.say('%[Get FREE Consultation](postback:enquire) %[Play Dating Quiz](postback:quiz) %[Learn More](postback:learnmore)'),
         receive: (bot, message) => {
