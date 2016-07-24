@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <title>Landing Page - Start Bootstrap Theme</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/landing-page.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<body >
+
+<div id="mainContainer" style="height:100%; width:100%;"> <p>writing something</p>
+</div>
+
+
+<div style="height:100%; width:100%;" id="fullScreenChat"> </div>
+
+<!-- Create the opening/closing button -->
+
+<!-- Background of the button -->
+
+<div class="BtnWrapper"
+     style="position:fixed;
+            z-index:9999;
+            bottom:40px;
+            right:16px;
+            width:58px;
+            height:58px;
+            border-radius:50%;
+            cursor:pointer;
+            box-shadow:0px 2px 5px 0px rgba(0, 0, 0, 0.26);
+            overflow:hidden;">
+
+
+    <script src="https://cdn.smooch.io/smooch.min.js"></script>
+
+    <script>
+    /* -- Initialise Smooch -- */
+      Smooch.init({
+      	appToken: '{{appToken}}',
+        embedded: true,
+      	emailCaptureEnabled: true,
+      	});
+
+    </script>
+    <script>
+
+      var mainContainer = document.getElementById('mainContainer');
+      var fullScreenChat = document.getElementById("fullScreenChat");
+
+        /* -- Hiding the main container -- */
+        mainContainer.style.display = 'none'
+
+        /* -- Displaying the main container -- */
+        fullScreenChat.style.display = 'block'
+        Smooch.render(fullScreenChat);
+
+    </script>
+
+    <script>
+
+
+    </script>
+
+
+</body>
+
+</html>
