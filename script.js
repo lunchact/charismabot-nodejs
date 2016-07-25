@@ -21,11 +21,11 @@ module.exports = new Script({
             const txt = message.text;
             switch (txt) {
                 case "enquire":
-                    return bot.say('To get a free consultation. Tell me more about yourself.')
+                    return bot.say('To get a free consultation. Tell me more about yourself.\n What\'s your name?')
                         .then(() => 'askName');
                 case "quiz":
-                    return bot.say('![](http://www.fnstatic.co.uk/images/source/article/omg-chocolate-cake-1_2.jpg)')
-                        .then(() => 'morecake1');
+                    //
+                    return false;
                 case "learnmore":
                     return bot.say('![](http://www.fnstatic.co.uk/images/source/article/omg-chocolate-cake-1_2.jpg)')
                         .then(() => 'morecake1');
@@ -33,62 +33,7 @@ module.exports = new Script({
         }
     },
 
-    morecake1: {
-        prompt: (bot) => bot.say('%[More](postback:more1) %[Something else](postback:somethingelse1)'),
-        receive: (bot, message) => {
-            const txt = message.text;
-            switch (txt) {
-                case "more1": //postback reply
-                    return bot.say('![](http://www.bbcgoodfood.com/sites/default/files/styles/recipe/public/recipe_images/recipe-image-legacy-id--1043451_11.jpg)')
-                        .then(() => 'morecake1');
-                case "somethingelse1": //postback reply
-                    return bot.say('OK. What do you want to do?')
-                        .then(() => 'something1');
-            }
-        }
-    },
-
-    morecake2: {
-        prompt: (bot) => bot.say('%[More](postback:more2) %[Something else](postback:somethingelse2)'),
-        receive: (bot, message) => {
-            const txt = message.text;
-            switch (txt) {
-                case "more2": //postback reply
-                    return bot.say('![](http://www.bbcgoodfood.com/sites/default/files/styles/recipe/public/recipe_images/recipe-image-legacy-id--1043451_11.jpg)')
-                        .then(() => 'morecake2');
-                case "somethingelse2": //postback reply
-                    return bot.say('OK. What do you want to do?')
-                        .then(() => 'something1');
-            }
-        }
-    },
-
-    something1: {
-        prompt: (bot) => bot.say('%[Post a comment](postback:postcomment1) %[Send us feedback](postback:sendfeedback1)'),
-        receive: (bot, message) => {
-            const txt = message.text;
-            switch (txt) {
-                case "postcomment1":
-                    return bot.say('Ok!') 
-                        .then(() => 'getComment');
-                case "sendfeedback1":
-                    return bot.say('Great! We’d love to hear from you!')
-                        .then(() => 'askName');
-            }
-        }
-    },
-
-    getComment: {
-        prompt: (bot) => bot.say('You can send it here'),
-        receive: (bot, message) => {
-            const comment = message.text;
-            return bot.setProp('comment', comment)
-                .then(() => 'thanksComment');
-        }
-    },
-
     askName: {
-        prompt: (bot) => bot.say('What\'s your name?'),
         receive: (bot, message) => {
             const name = message.text;
             return bot.setProp('name', name)
