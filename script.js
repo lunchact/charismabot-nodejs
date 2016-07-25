@@ -27,8 +27,28 @@ module.exports = new Script({
                     //
                     return false;
                 case "learnmore":
-                    return bot.say('![](http://www.fnstatic.co.uk/images/source/article/omg-chocolate-cake-1_2.jpg)')
-                        .then(() => 'morecake1');
+                    return bot.say('What would you like to know? %[About Us](postback:aboutUs) %[Our Services](postback:ourServices) %[Success Stories](postback:successStories)')
+                        .then(() => 'findOutMore');
+            }
+        }
+    },
+
+    findOutMore: {
+        receive: (bot, message) => {
+            const navoption = message.text;
+            switch (navoption) {
+                case "aboutUs":
+                    return bot.setProp('navoption', navoption)
+                        .then(() => bot.say('About us!'))
+                        .then(() => 'askAge');
+                case "ourServices":
+                    return bot.setProp('navoption', navoption)
+                        .then(() => bot.say('Our Services!'))
+                        .then(() => 'askAge');
+                case "successStories":
+                    return bot.setProp('navoption', navoption)
+                        .then(() => bot.say('Success Stories!'))
+                        .then(() => 'askAge');
             }
         }
     },
