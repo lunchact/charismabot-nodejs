@@ -9,10 +9,10 @@
             return '_' + Math.random().toString(36).substr(2, 9);
         };
         var privateName = ID();
-        alert(privateName);
+        //alert(privateName);
         Smooch.init({
             appToken: '{{appToken}}',
-            userID: '2230317'
+            userID: privateName
         });
     </script>
 </head>
